@@ -1,0 +1,75 @@
+// Portable Assistant for SIMAGINA - Minimalist Web App
+
+import { useState } from 'react';
+import { Button } from "@/components/ui/button";
+import { Card, CardContent } from "@/components/ui/card";
+
+const phrases = [
+  "Ты можешь делать мало. Главное — делать по-человечески.",
+  "Сегодня ты просто поешь — и этого достаточно.",
+  "Ты уже молодец, что открыла эту штуку.",
+  "Не обязана всё помнить. Я тут, чтобы напомнить.",
+  "Ты не опоздала. Ты просто начала позже, чем хотелось."
+];
+
+export default function AssistantApp() {
+  const [mustDo, setMustDo] = useState(["Выпить воды", "Ответить на письмо учёбы"]);
+  const [ifEnergy, setIfEnergy] = useState(["Распланировать неделю", "Позвонить в поликлинику"]);
+  const [later, setLater] = useState(["Уборка", "Заниматься сайтом"]);
+  const [phrase, setPhrase] = useState(phrases[0]);
+
+  const getRandomPhrase = () => {
+    const next = phrases[Math.floor(Math.random() * phrases.length)];
+    setPhrase(next);
+  };
+
+  return (
+    <div className="p-6 max-w-xl mx-auto space-y-6">
+      <h1 className="text-2xl font-bold text-center">👋 Привет, SIMAGINA</h1>
+      <p className="text-center italic text-muted-foreground">
+        Сегодняшний фокус: "5% энергии — это уже движение."
+      </p>
+
+      <Card>
+        <CardContent className="space-y-2 py-4">
+          <h2 className="text-lg font-semibold">📋 Обязательное:</h2>
+          {mustDo.map((item, i) => (
+            <div key={i} className="flex items-center gap-2">
+              <input type="checkbox" /> <span>{item}</span>
+            </div>
+          ))}
+        </CardContent>
+      </Card>
+
+      <Card>
+        <CardContent className="space-y-2 py-4">
+          <h2 className="text-lg font-semibold">💡 Если будет ресурс:</h2>
+          {ifEnergy.map((item, i) => (
+            <div key={i} className="flex items-center gap-2">
+              <input type="checkbox" /> <span>{item}</span>
+            </div>
+          ))}
+        </CardContent>
+      </Card>
+
+      <Card>
+        <CardContent className="space-y-2 py-4">
+          <h2 className="text-lg font-semibold">🕓 На потом:</h2>
+          {later.map((item, i) => (
+            <div key={i} className="flex items-center gap-2">
+              <input type="checkbox" /> <span>{item}</span>
+            </div>
+          ))}
+        </CardContent>
+      </Card>
+
+      <Card>
+        <CardContent className="text-center space-y-2 py-4">
+          <h2 className="text-lg font-semibold">🎙️ Ассистент говорит:</h2>
+          <p className="italic">“{phrase}”</p>
+          <Button onClick={getRandomPhrase} variant="outline">Обновить фразу</Button>
+        </CardContent>
+      </Card>
+    </div>
+  );
+}
